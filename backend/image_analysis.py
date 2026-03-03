@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 
-
 class ImageAnalyzer:
     def __init__(self, image_path):
         self.image_path = image_path
@@ -10,9 +9,7 @@ class ImageAnalyzer:
         self.gray = None
         self.hsv = None
 
-    # ---------------------------------
     # Load Image
-    # ---------------------------------
     def load_image(self):
         self.image = cv2.imread(self.image_path)
 
@@ -23,28 +20,20 @@ class ImageAnalyzer:
         self.gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         self.hsv = cv2.cvtColor(self.image, cv2.COLOR_BGR2HSV)
 
-    # ---------------------------------
     # Mean Color (RGB)
-    # ---------------------------------
     def extract_mean_color(self):
         return np.mean(self.image_rgb, axis=(0, 1))
 
-    # ---------------------------------
     # Color Variance
-    # ---------------------------------
     def extract_color_variance(self):
         return np.var(self.image_rgb, axis=(0, 1))
 
-    # ---------------------------------
     # Dominant Hue (HSV Space)
-    # ---------------------------------
     def extract_dominant_hue(self):
         hue_channel = self.hsv[:, :, 0]
         return int(np.mean(hue_channel))
 
-    # ---------------------------------
     # Oil Detection (Improved Logic)
-    # ---------------------------------
     def detect_oil_presence(self):
         """
         Oil tends to:
@@ -72,9 +61,7 @@ class ImageAnalyzer:
 
         return oil_present, float(mean_saturation), float(std_brightness)
 
-    # ---------------------------------
     # Edge Density (Texture Indicator)
-    # ---------------------------------
     def analyze_texture(self):
         edges = cv2.Canny(self.gray, 100, 200)
         edge_density = np.sum(edges > 0) / edges.size
@@ -88,9 +75,7 @@ class ImageAnalyzer:
 
         return texture, float(edge_density)
 
-    # ---------------------------------
     # Stain Area Ratio
-    # ---------------------------------
     def calculate_stain_area_ratio(self):
         """
         Detect stain area using thresholding.
@@ -102,9 +87,7 @@ class ImageAnalyzer:
         area_ratio = stain_pixels / total_pixels
         return float(area_ratio)
 
-    # ---------------------------------
     # Spread Metric (Contour Analysis)
-    # ---------------------------------
     def calculate_spread_metric(self):
         """
         Measures how wide the stain spreads.
@@ -125,9 +108,7 @@ class ImageAnalyzer:
         spread_metric = area / perimeter
         return float(spread_metric)
 
-    # ---------------------------------
     # Full Analysis
-    # ---------------------------------
     def analyze(self):
         self.load_image()
 
@@ -157,7 +138,6 @@ class ImageAnalyzer:
         return features
 
 """
-
 | Feature          | Why It Matters               |
 | ---------------- | ---------------------------- |
 | mean_rgb         | Base pigment clue            |
