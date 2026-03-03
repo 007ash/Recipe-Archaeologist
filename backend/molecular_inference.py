@@ -9,9 +9,7 @@ class MolecularInference:
             self.scores[ingredient] = 0
         self.scores[ingredient] += value
 
-    # ---------------------------
     # Rule-Based Scoring
-    # ---------------------------
     def apply_color_rules(self):
         hue = self.features.get("dominant_hue", 0)
         mean_rgb = self.features.get("mean_rgb", [0, 0, 0])
@@ -54,9 +52,7 @@ class MolecularInference:
             self.add_score("cream", 0.5)
             self.add_score("yogurt", 0.5)
 
-    # ---------------------------
     # Normalize Scores (0–1)
-    # ---------------------------
     def normalize_scores(self):
         if not self.scores:
             return self.scores
@@ -70,9 +66,7 @@ class MolecularInference:
 
         return self.scores
 
-    # ---------------------------
     # Full Inference Pipeline
-    # ---------------------------
     def infer(self):
         self.apply_color_rules()
         self.apply_oil_rules()
