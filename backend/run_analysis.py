@@ -2,10 +2,10 @@ from image_analysis import ImageAnalyzer
 from molecular_inference import MolecularInference
 from llm_engine import RecipeGenerator
 
-API_KEY = "your_api_key_here"
+API_KEY = ""
 
 if __name__ == "__main__":
-    image_path = "images/stain.jpg"
+    image_path = "backend/images/image1.png"
 
     # Step 1: Image analysis
     analyzer = ImageAnalyzer(image_path)

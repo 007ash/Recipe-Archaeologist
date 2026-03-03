@@ -1,16 +1,18 @@
 import json
-from openai import OpenAI
-
+from google import genai
+from google.genai import types
 
 class RecipeGenerator:
     def __init__(self, api_key):
-        self.client = OpenAI(api_key=api_key)
+        # The new SDK uses a centralized Client
+        self.client = genai.Client(api_key=api_key)
+        # Using Gemini 2.0 Flash (latest recommended for speed/JSON)
+        self.model_id = "gemini-2.5-flash-lite"
 
     def build_prompt(self, features, ingredient_scores):
-
-        prompt = f"""
+        # Prompt logic remains the same
+        return f"""
 You are a scientific culinary reconstruction AI.
-
 You are reconstructing a dish based on chemical and visual residue evidence.
 
 --- VISUAL FEATURES ---
@@ -37,37 +39,45 @@ Spread Metric: {features.get('spread_metric')}
 6. Explain the molecular reasoning clearly.
 7. Provide a confidence score (0-100).
 
-Return ONLY valid JSON:
-
+Return ONLY valid JSON using this structure:
 {{
-  "dish_name": "...",
-  "dish_category": "...",
+  "dish_name": "string",
+  "dish_category": "string",
   "ingredients": [
-    {{"name": "...", "quantity": "..."}}
+    {{"name": "string", "quantity": "string"}}
   ],
-  "cooking_steps": ["..."],
-  "molecular_reasoning": "...",
-  "confidence_score": 0
+  "cooking_steps": ["string"],
+  "molecular_reasoning": "string",
+  "confidence_score": number
 }}
 """
-        return prompt
 
     def generate_recipe(self, features, ingredient_scores):
-
         prompt = self.build_prompt(features, ingredient_scores)
 
-        response = self.client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "You are a molecular gastronomy reconstruction model."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.6
-        )
-
-        output_text = response.choices[0].message.content
+        try:
+            # New syntax: client.models.generate_content
+            response = self.client.models.generate_content(
+                model=self.model_id,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    # Force valid JSON output
+                    response_mime_type="application/json",
+                    temperature=0.6,
+                    # System instruction is now passed in the config
+                    system_instruction="You are a molecular gastronomy reconstruction model."
+                )
+            )
+            output_text = response.text
+        except Exception as e:
+            print(f"\n[Error] Gemini API Call Failed: {e}")
+            output_text = json.dumps({
+                "error": "API Error", 
+                "dish_name": "Unknown", 
+                "molecular_reasoning": str(e)
+            })
 
         try:
             return json.loads(output_text)
-        except:
+        except Exception:
             return {"error": "Invalid JSON", "raw_output": output_text}
