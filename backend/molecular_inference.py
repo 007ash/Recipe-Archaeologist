@@ -71,5 +71,4 @@ class MolecularInference:
         self.apply_color_rules()
         self.apply_oil_rules()
         self.apply_texture_rules()
-
         return self.normalize_scores()
