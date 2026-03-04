@@ -13,7 +13,7 @@ class RecipeGenerator:
         # Prompt logic remains the same
         return f"""
 You are a scientific culinary reconstruction AI.
-You are reconstructing a dish based on chemical and visual residue evidence.
+You are reconstructing dishes based on chemical and visual residue evidence.
 
 --- VISUAL FEATURES ---
 Mean RGB: {features.get('mean_rgb')}
@@ -34,22 +34,27 @@ Spread Metric: {features.get('spread_metric')}
 1. Interpret what the hue, saturation, and brightness imply chemically.
 2. Interpret what oil presence and spread imply about fat content.
 3. Interpret what edge density and texture imply about solid particles.
-4. Propose the most plausible dish category.
-5. Generate a realistic modern recipe.
+4. Propose the TOP 3 most plausible dish categories.
+5. Generate a realistic modern recipe for each dish.
 6. Explain the molecular reasoning clearly.
-7. Provide a confidence score (0-100).
+7. Assign a confidence score (0-100) for each hypothesis.
 
 Return ONLY valid JSON using this structure:
-{{
-  "dish_name": "string",
-  "dish_category": "string",
-  "ingredients": [
-    {{"name": "string", "quantity": "string"}}
-  ],
-  "cooking_steps": ["string"],
-  "molecular_reasoning": "string",
-  "confidence_score": number
-}}
+
+{
+  "hypotheses": [
+    {
+      "dish_name": "string",
+      "dish_category": "string",
+      "ingredients": [
+        {"name": "string", "quantity": "string"}
+      ],
+      "cooking_steps": ["string"],
+      "molecular_reasoning": "string",
+      "confidence_score": number
+    }
+  ]
+}
 """
 
     def generate_recipe(self, features, ingredient_scores):
