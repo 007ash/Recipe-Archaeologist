@@ -2,7 +2,7 @@ from image_analysis import ImageAnalyzer
 from molecular_inference import MolecularInference
 from llm_engine import RecipeGenerator
 
-API_KEY = ""
+API_KEY = "AIzaSyBA0-AVPTjGMG1szhCduOKRekY-JOdFEqs"
 
 if __name__ == "__main__":
     image_path = "backend/images/image1.png"

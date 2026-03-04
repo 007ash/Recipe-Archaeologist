@@ -1,6 +1,6 @@
 import streamlit as st
 import requests
-import pandas as pd
+import pandas as pd         
 
 API_URL = "http://localhost:8000/analyze"
 
@@ -22,6 +22,8 @@ if uploaded_file is not None:
 
         with st.spinner("Analyzing stain..."):
 
+            files = {"file": uploaded_file.getvalue()}
+
             response = requests.post(
                 API_URL,
                 files={"file": uploaded_file}
@@ -33,24 +35,18 @@ if uploaded_file is not None:
 
                 features = result["visual_features"]
                 ingredients = result["ingredient_probabilities"]
-                recipe_data = result["reconstructed_recipe"]
+                recipe = result["reconstructed_recipe"]
 
                 st.success("Analysis Complete!")
 
                 col1, col2 = st.columns(2)
 
-                # -----------------------------
-                # Visual Features
-                # -----------------------------
                 with col1:
-                    st.subheader("🔬 Visual Features")
+                    st.subheader("Visual Features")
                     st.json(features)
 
-                # -----------------------------
-                # Ingredient Probabilities
-                # -----------------------------
                 with col2:
-                    st.subheader("🧪 Ingredient Probabilities")
+                    st.subheader("Ingredient Probabilities")
 
                     df = pd.DataFrame(
                         list(ingredients.items()),
@@ -59,44 +55,29 @@ if uploaded_file is not None:
 
                     st.bar_chart(df.set_index("Ingredient"))
 
-                st.divider()
+                st.subheader("Generated Recipe")
 
-                st.subheader("🍲 Possible Recipe Reconstructions")
+                st.write("### Dish Name")
+                st.write(recipe.get("dish_name"))
 
-                hypotheses = recipe_data.get("hypotheses", [])
+                st.write("### Category")
+                st.write(recipe.get("dish_category"))
 
-                if len(hypotheses) == 0:
-                    st.warning("No recipe hypotheses returned")
+                st.write("### Ingredients")
 
-                for i, h in enumerate(hypotheses):
+                for ing in recipe.get("ingredients", []):
+                    st.write(f"- {ing['name']} : {ing['quantity']}")
 
-                    st.divider()
+                st.write("### Cooking Steps")
 
-                    st.write(f"## Hypothesis {i+1}: {h['dish_name']}")
+                for step in recipe.get("cooking_steps", []):
+                    st.write(f"{step}")
 
-                    st.write("**Category:**", h["dish_category"])
-                    st.write("**Confidence:**", h["confidence_score"], "%")
+                st.write("### Molecular Reasoning")
+                st.write(recipe.get("molecular_reasoning"))
 
-                    st.write("### Ingredients")
-                    for ing in h["ingredients"]:
-                        st.write(f"- {ing['name']} : {ing['quantity']}")
-
-                    st.write("### Cooking Steps")
-                    for step in h["cooking_steps"]:
-                        st.write(f"- {step}")
-
-                    st.write("### Molecular Reasoning")
-                    st.write(h["molecular_reasoning"])
-
-                # -----------------------------
-                # Explainability Panel
-                # -----------------------------
-                with st.expander("🔍 AI Reasoning Details"):
-                    st.write("Visual Features")
-                    st.json(features)
-
-                    st.write("Ingredient Probabilities")
-                    st.json(ingredients)
+                st.write("### Confidence Score")
+                st.write(recipe.get("confidence_score"))
 
             else:
                 st.error("API Error")

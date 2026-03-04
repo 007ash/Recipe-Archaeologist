@@ -41,20 +41,20 @@ Spread Metric: {features.get('spread_metric')}
 
 Return ONLY valid JSON using this structure:
 
-{
+{{
   "hypotheses": [
-    {
+    {{
       "dish_name": "string",
       "dish_category": "string",
       "ingredients": [
-        {"name": "string", "quantity": "string"}
+        {{"name": "string", "quantity": "string"}}
       ],
       "cooking_steps": ["string"],
       "molecular_reasoning": "string",
-      "confidence_score": number
-    }
+      "confidence_score": 0
+    }}
   ]
-}
+}}
 """
 
     def generate_recipe(self, features, ingredient_scores):
