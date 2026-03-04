@@ -19,5 +19,5 @@ if __name__ == "__main__":
     generator = RecipeGenerator(API_KEY)
     recipe = generator.generate_recipe(features, ingredient_scores)
 
-    print("\n=== FINAL RECONSTRUCTED RECIPE ===")
+    print("\nFINAL RECONSTRUCTED RECIPE -------")
     print(recipe)
