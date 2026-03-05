@@ -61,15 +61,12 @@ Return ONLY valid JSON using this structure:
         prompt = self.build_prompt(features, ingredient_scores)
 
         try:
-            # New syntax: client.models.generate_content
             response = self.client.models.generate_content(
                 model=self.model_id,
                 contents=prompt,
                 config=types.GenerateContentConfig(
-                    # Force valid JSON output
                     response_mime_type="application/json",
                     temperature=0.6,
-                    # System instruction is now passed in the config
                     system_instruction="You are a molecular gastronomy reconstruction model."
                 )
             )
