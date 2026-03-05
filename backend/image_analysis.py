@@ -150,4 +150,5 @@ class ImageAnalyzer:
 | stain_area_ratio | Thick vs watery dish         |
 | spread_metric    | Oil-heavy radial spread      |
 
+
   """
