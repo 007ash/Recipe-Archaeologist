@@ -66,6 +66,7 @@ class MolecularInference:
 
         return self.scores
 
+
     # Full Inference Pipeline
     def infer(self):
         self.apply_color_rules()
