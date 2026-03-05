@@ -8,7 +8,6 @@ from molecular_inference import MolecularInference
 from llm_engine import RecipeGenerator
 
 API_KEY = os.getenv("API_KEY")
-
 app = FastAPI(title="Recipe Archaeologist API")
 
 # Allow frontend connections (important later)
@@ -22,12 +21,9 @@ app.add_middleware(
 
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
-
 @app.get("/")
 def root():
     return {"message": "Recipe Archaeologist API is running"}
-
 
 @app.post("/analyze")
 async def analyze_image(file: UploadFile = File(...)):
