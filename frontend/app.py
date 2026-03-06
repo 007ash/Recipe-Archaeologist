@@ -130,3 +130,6 @@ if uploaded_file is not None:
                     
             except requests.exceptions.ConnectionError:
                 st.error("🚨 Connection Error: Could not connect to the backend. Is your API running on port 8000?")
+
+
+
