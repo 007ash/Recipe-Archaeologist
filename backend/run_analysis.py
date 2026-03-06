@@ -3,7 +3,6 @@ from molecular_inference import MolecularInference
 from llm_engine import RecipeGenerator
 
 API_KEY = ""
-
 if __name__ == "__main__":
     image_path = "backend/images/image1.png"
 
