@@ -50,3 +50,4 @@ async def analyze_image(file: UploadFile = File(...)):
         "ingredient_probabilities": ingredient_scores,
         "reconstructed_recipe": recipe_output
     }
+
