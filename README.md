@@ -37,7 +37,7 @@
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/recipe-archaeologist.git
+git clone https://github.com/007ash/recipe-archaeologist.git
 cd recipe-archaeologist
 ```
 
