@@ -26,7 +26,7 @@
 │   └── app.py                  # Streamlit web application
 ├── 📂 NoteBook
 │   └── noteBook.ipynb          # Self-contained prototype combining all logic
-└── 📜 README.md                # Project documentation
+└── 📜 README.md                # Project documentation.
 ```
 
 ## 🛠️ Installation & Setup
