@@ -7,7 +7,7 @@ from image_analysis import ImageAnalyzer
 from molecular_inference import MolecularInference
 from llm_engine import RecipeGenerator
 
-API_KEY = ""
+API_KEY = "" 
 app = FastAPI(title="Recipe Archaeologist API")
 
 # Allow frontend connections (important later)
